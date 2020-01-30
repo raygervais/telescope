@@ -41,3 +41,11 @@ services:
       - '8080:8080'
       # https port
       - '8443:8443'
+  nginx:
+    image: nginx:latest
+    container_name: production_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
