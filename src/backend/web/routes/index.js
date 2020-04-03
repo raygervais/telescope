@@ -44,4 +44,16 @@ router.use('/stats', stats);
 router.use('/user', user);
 router.use('/query', query);
 
+/**
+ * 404 Handler, Pass to front-end
+ * Leverage .status because adding the `404` status in redirect causes "Not Found. Redirecting to /404?search=" to display.
+ */
+router.use('*', (req, res) => {
+  const originalUrl = req.originalUrl.trim();
+  res
+    .status(404)
+    .redirect(`/404?search=${originalUrl}`)
+    .sendFile(path.join(__dirname, '../../../frontend/public/index.html'));
+});
+
 module.exports = router;
