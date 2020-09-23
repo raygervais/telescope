@@ -27,7 +27,7 @@ COPY ./src/frontend/package.json ./src/frontend/package.json
 
 # -------------------------------------
 # Context: Dependencies
-FROM build AS dependencies
+FROM build AS backend_dependencies
 
 # Install Production Modules!
 # Disable postinstall hook in this case since we are being explict with installs
@@ -35,16 +35,15 @@ FROM build AS dependencies
 # which though is logical for local development, breaks docker container caching trick.
 RUN npm install --only=production --no-package-lock --ignore-scripts
 
-# Install Frontend Modules!
+FROM backend_dependencies as frontend_dependencies
 RUN cd ./src/frontend && npm install --no-package-lock
 
-# Install Deployment Microservice Modules!
+FROM build as deployment_dependencies
 RUN cd /telescope/tools/autodeployment && npm install --no-package-lock --ignore-scripts
-
 
 # -------------------------------------
 # Context: Front-end Builder
-FROM dependencies as builder
+FROM frontend_dependencies as builder
 
 COPY ./src/frontend ./src/frontend
 COPY ./.git ./.git
@@ -57,8 +56,8 @@ RUN npm run build
 FROM build AS release
 
 # GET deployment code from previous containers
-COPY --from=dependencies /telescope/node_modules /telescope/node_modules
-COPY --from=dependencies /telescope/tools/autodeployment /telescope/tools/autodeployment
+COPY --from=backend_dependencies /telescope/node_modules /telescope/node_modules
+COPY --from=deployment_dependencies /telescope/tools/autodeployment /telescope/tools/autodeployment
 COPY --from=builder /telescope/src/frontend/public /telescope/src/frontend/public
 COPY --from=builder /telescope/.git /telescope/.git
 COPY ./src/backend ./src/backend
