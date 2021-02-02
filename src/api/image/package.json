@@ -1,0 +1,26 @@
+{
+  "name": "@seneca/telescope-image",
+  "private": true,
+  "version": "0.0.1",
+  "description": "A service for optimizing images",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": "Seneca-CDOT/telescope",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/Seneca-CDOT/telescope/issues"
+  },
+  "homepage": "https://github.com/Seneca-CDOT/telescope#readme",
+  "dependencies": {
+    "celebrate": "^13.0.4",
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "got": "^11.8.1",
+    "helmet": "4.1.1",
+    "sharp": "^0.27.1"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
