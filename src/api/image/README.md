@@ -25,3 +25,9 @@ You can use any/all the following optional query params:
 - `GET /?t=png`- returns the default background JPEG with width = 800px as a PNG
 - `GET /?u=https%3A%2F%2Fexample.com/image` - returns the image at the URL https://example.com/image as a JPEG at 800px
 - `GET /?w=500&t=webp&u=https%3A%2F%2Fexample.com/image` - returns the image at the URL https://example.com/image as a WebP at 500px
+
+## Docker
+
+- To build and tag: `docker build . -t telescope_img_svc:latest`
+- To run locally: `docker run -p 4444:4444 telescope_img_svc:latest`
+
