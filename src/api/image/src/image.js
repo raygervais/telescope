@@ -3,7 +3,6 @@ const sharp = require('sharp');
 // Supported image types
 const JPEG = 'jpeg';
 const WEBP = 'webp';
-const AVIF = 'avif';
 const PNG = 'png';
 
 // TODO: logging
@@ -15,8 +14,6 @@ const transformers = {
   // https://sharp.pixelplumbing.com/api-output#jpeg
   [JPEG]: (width) => resize(width).jpeg(),
   // https://sharp.pixelplumbing.com/api-output#avif
-  [AVIF]: (width) => resize(width).avif(),
-  // https://sharp.pixelplumbing.com/api-output#png
   [PNG]: (width) => resize(width).png(),
   // https://sharp.pixelplumbing.com/api-output#webp
   [WEBP]: (width) => resize(width).webp(),
@@ -31,7 +28,6 @@ function optimize({ imgStream, width = 800, imageType = JPEG, res }) {
   // TODO: build more error handling on this...
   const transformErrorHandler = (err) => {
     console.error(err);
-    // 400 or 500? The image at the given URL isn't valid
     res.status(500).end();
   };
 
@@ -45,9 +41,6 @@ function optimize({ imgStream, width = 800, imageType = JPEG, res }) {
  */
 function setType(type = JPEG, res) {
   switch (type) {
-    case 'avif':
-      res.type('image/avif');
-      return AVIF;
     case 'webp':
       res.type('image/webp');
       return WEBP;

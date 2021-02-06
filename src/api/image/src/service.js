@@ -1,18 +1,13 @@
-const path = require('path');
 const fs = require('fs');
 const express = require('express');
-const got = require('got');
 const { celebrate, Joi, errors, Segments } = require('celebrate');
 
 const { optimize, setType } = require('./image');
+const { getRandomPhotoFilename } = require('./photos');
 
 const router = express.Router();
 
-const defaultImagePath = path.join(__dirname, '..', 'default.jpg');
-
-const defaultImageStream = () => fs.createReadStream(defaultImagePath);
-
-const urlImageStream = (url) => got.stream(url);
+const getRandomImageFileStream = () => fs.createReadStream(getRandomPhotoFilename());
 
 /**
  * Support the following query params, all optional:
@@ -23,16 +18,13 @@ const urlImageStream = (url) => got.stream(url);
  */
 const schema = {
   [Segments.QUERY]: Joi.object().keys({
-    t: Joi.string().valid('jpeg', 'jpg', 'webp', 'png', 'avif'),
-    w: Joi.number().integer().min(200).max(4592),
-    u: Joi.string().uri({
-      scheme: ['http', 'https'],
-    }),
+    t: Joi.string().valid('jpeg', 'jpg', 'webp', 'png'),
+    w: Joi.number().integer().min(200).max(2000),
   }),
 };
 
 const optimizeImage = (req, res) => {
-  const { t, w, u } = req.query;
+  const { t, w } = req.query;
 
   // We use 800 for the width if none is given
   const width = w ? parseInt(w, 10) : 800;
@@ -40,13 +32,12 @@ const optimizeImage = (req, res) => {
   // Set the header and normalize the image type we'll stream
   const imageType = setType(t, res);
 
-  // Use the provided URL or fall-back to our default image
-  const stream = u ? urlImageStream(u) : defaultImageStream();
+  // Get a file stream of a background image to use
+  const stream = getRandomImageFileStream();
 
   // Deal with URL not being resolvable
   stream.on('error', (err) => {
     console.error(err);
-    // 400 or 500?  The client is asking for a URL we can't get...
     res.status(500).end();
   });
 
