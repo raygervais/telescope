@@ -12,7 +12,6 @@ const getRandomImageFileStream = () => fs.createReadStream(getRandomPhotoFilenam
 /**
  * Support the following query params, all optional:
  *
- *  - u: the image URL to download and resize. Must be absolute http/https
  *  - w: the width to resize the image to. Must be 200-4592. Defaults to 800.
  *  - t: the image type to render, one of: jpeg/jpeg, png, webp, avif. Defaults to jpeg.
  */
