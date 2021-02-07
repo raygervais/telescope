@@ -12,7 +12,7 @@ const beginning = `<!doctype html>
   <link rel="icon" type="image/png" href="/?t=png&w=200"/>
   <style>
     main {
-      display: flex
+      display: flex;
       flex-wrap: wrap;
     }
   </style>
