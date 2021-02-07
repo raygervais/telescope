@@ -22,12 +22,16 @@ NOTE: if both `w` and `h` are used, the image will be resized/cropped to cover t
 
 ### Examples
 
-- `GET /` - returns the default background JPEG with width = 800px. If requested from a browser or
-  another agent that wants HTML, a gallery page will be returned of all backgrounds
+- `GET /` - returns the default background JPEG with width = 800px
 - `GET /?w=1024`- returns the default background JPEG with width = 1024px
 - `GET /?h=1024`- returns the default background JPEG with height = 1024px
 - `GET /?w=1024&h=1024`- returns the default background JPEG with width = 1024px and height = 1024px
 - `GET /?t=png`- returns the default background JPEG with width = 800px as a PNG
+
+- `GET /gallery` - an HTML gallery page will be returned of all backgrounds
+- `GET /default.jpg` - returns a specific image (e.g., `default.jpg` or any other) from the available backgrounds
+
+- `GET /healthcheck` - returns `{ "status": "ok" }` if everything is running properly
 
 ## Docker
 
