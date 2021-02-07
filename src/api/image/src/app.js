@@ -17,5 +17,10 @@ app.use('/', service);
 
 // TODO: what to do with default error handler...
 // app.use(errorHandler);
+// eslint-disable-next-line no-unused-vars
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send();
+});
 
 module.exports = app;

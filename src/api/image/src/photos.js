@@ -36,6 +36,13 @@ function getRandomPhotoFilename() {
   return path.join(photosDir, photoFilename);
 }
 
+// Get a specific image filename from the photos/ directory.
+function getPhotoFilename(image) {
+  return path.join(photosDir, image);
+}
+
 exports.download = download;
 exports.getRandomPhotoFilename = getRandomPhotoFilename;
+exports.getPhotoFilename = getPhotoFilename;
 exports.photosDir = photosDir;
+exports.getPhotos = () => [...photos];
