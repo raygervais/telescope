@@ -3,15 +3,15 @@ const fs = require('fs');
 const path = require('path');
 
 // We put all downloaded photos in the photos/ dir
-const photosDir = path.join(__dirname, '..', 'photos');
+const photosDir = path.join(__dirname, '../..', 'photos');
 
 // By default we only have 1 photo available until we've downloaded the rest
 let photos = ['default.jpg'];
 
 // Download the Unsplash photos in the background, and update our list when done
 function download() {
-  console.log('Started downloadin Unsplash photos...');
-  const filename = path.join(__dirname, '..', '/bin/unsplash-download.js');
+  console.log('Started downloading Unsplash photos...');
+  const filename = path.join(__dirname, '../..', '/bin/unsplash-download.js');
   execFile(filename, (error, stdout, stderr) => {
     if (error) {
       console.warn('Unable to download Unsplash photos', stderr);
@@ -21,7 +21,7 @@ function download() {
           console.warn('Unable to read downloaded photos', err);
           return;
         }
-        photos = photoFilenames.filter((filename) => filename.endsWith('.jpg'));
+        photos = photoFilenames.filter((photoFilename) => photoFilename.endsWith('.jpg'));
         console.log('Finished downloading Unsplash photos.');
       });
     }

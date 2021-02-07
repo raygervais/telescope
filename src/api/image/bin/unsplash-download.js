@@ -7,7 +7,7 @@ const got = require('got');
 const { promisify } = require('util');
 
 const unsplashPhotoUrls = require('../unsplash-photos.json');
-const { photosDir } = require('../src/photos');
+const { photosDir } = require('../src/lib/photos');
 
 const pipeline = promisify(stream.pipeline);
 

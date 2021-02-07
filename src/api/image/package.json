@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "A service for optimizing images",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "clean": "del \"./photos/*.jpg\" \"!./photos/default.jpg\""
   },
   "repository": "Seneca-CDOT/telescope",
@@ -14,11 +14,13 @@
   },
   "homepage": "https://github.com/Seneca-CDOT/telescope#readme",
   "dependencies": {
+    "@godaddy/terminus": "^4.6.0",
     "celebrate": "^13.0.4",
     "cors": "2.8.5",
     "express": "4.17.1",
     "got": "^11.8.1",
     "helmet": "4.1.1",
+    "http-errors": "^1.8.0",
     "sharp": "^0.27.1"
   },
   "engines": {
