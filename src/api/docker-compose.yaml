@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-  # Infrastructure
   reverse-proxy:
     image: traefik:v2.4
     command:
@@ -17,10 +16,9 @@ services:
       - '8080:8080'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/config/traefik.yaml:/etc/traefik/traefik.yaml"
 
   redis:
-    image: "redis:alpine"
+    image: 'redis:alpine'
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
     command: ['redis-server', '--appendonly', 'yes']
@@ -36,24 +34,23 @@ services:
       - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
       - discovery.type=single-node
     ports:
-      - "${ELASTIC_PORT}:${ELASTIC_PORT}"
+      - '${ELASTIC_PORT}:${ELASTIC_PORT}'
     volumes:
       - type: volume
         source: elasticsearch
         target: /usr/share/elasticsearch/data
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.elasticsearch.rule=Host(`elastic.docker.localhost`)"
-      - "traefik.http.routers.elasticsearch.middlewares=es-stripprefix"
-      - "traefik.http.middlewares.es-stripprefix.stripprefix.prefixes=/es"
-      - "traefik.http.services.elasticsearch.loadbalancer.server.port=${ELASTIC_PORT}"
-
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.elastic.rule=Host(`elastic.docker.localhost`)'
+      - 'traefik.http.routers.elastic.middlewares=es-stripprefix'
+      - 'traefik.http.middlewares.es-stripprefix.stripprefix.prefixes=/es'
+      - 'traefik.http.services.elastic.loadbalancer.server.port=${ELASTIC_PORT}'
 
   kibana:
     env_file: .env
     image: docker.elastic.co/kibana/kibana:7.9.3
     ports:
-      - "${KIBANA_PORT}"
+      - '${KIBANA_PORT}'
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:${ELASTIC_PORT}
       - KIBANA_HOST=${KIBANA_HOST}
@@ -66,9 +63,8 @@ services:
         source: elasticsearch
         target: /usr/share/elasticsearch/data
     labels:
-      - "traefik.http.routers.kibana.rule=Host(`kibana.docker.localhost`)"
-      - "traefik.backend=kibana"
-
+      - 'traefik.http.routers.kibana.rule=Host(`kibana.docker.localhost`)'
+      - 'traefik.backend=kibana'
 
   # Micro Services
   image-service:
@@ -77,10 +73,9 @@ services:
       context: ./image
       dockerfile: Dockerfile
     ports:
-      - "${IMAGE_PORT}"
+      - '${IMAGE_PORT}'
     labels:
-      - "traefik.http.routers.image.rule=Host(`image.docker.localhost`)"
-
+      - 'traefik.http.routers.image.rule=Host(`image.docker.localhost`)'
 
 volumes:
   elasticsearch:
